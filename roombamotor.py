@@ -1,8 +1,7 @@
 import atexit
-from Adafruit_MotorHAT import Adafruit_MotorHAT
 import traitlets
 from traitlets.config.configurable import Configurable
-
+import create
 
 class Motor(Configurable):
 
@@ -12,11 +11,15 @@ class Motor(Configurable):
     alpha = traitlets.Float(default_value=1.0).tag(config=True)
     beta = traitlets.Float(default_value=0.0).tag(config=True)
 
+    channel_id = None
+
     def __init__(self, driver, channel, *args, **kwargs):
         super(Motor, self).__init__(*args, **kwargs)  # initializes traitlets
 
-        self._driver = driver
-        self._motor = self._driver.getMotor(channel)
+       # self._driver = driver
+       # self._motor = self._driver.getMotor(channel)
+        self._motor = driver
+        self.channel_id = channel
         atexit.register(self._release)
         
     @traitlets.observe('value')
@@ -24,15 +27,28 @@ class Motor(Configurable):
         self._write_value(change['new'])
 
     def _write_value(self, value):
-        """Sets motor value between [-1, 1]"""
-        mapped_value = int(255.0 * (self.alpha * value + self.beta))
-        speed = min(max(abs(mapped_value), 0), 255)
-        self._motor.setSpeed(speed)
-        if mapped_value < 0:
-            self._motor.run(Adafruit_MotorHAT.FORWARD)
-        else:
-            self._motor.run(Adafruit_MotorHAT.BACKWARD)
+        print('write_value value = ', value)
+        print('self.channel_id = ', self.channel_id)
+        
+        #"""Sets motor value between [-1, 1]"""
+        #mapped_value = int(255.0 * (self.alpha * value + self.beta))
+        #speed = min(max(abs(mapped_value), 0), 255)
+        speed = value
+
+        if( self.channel_id == 1):
+            self._motor.setLeftWheelVel(speed)
+        if( self.channel_id == 2):
+            self._motor.setRightWheelVel(speed)
+
+        # self._motor.setSpeed(speed)
+        # if mapped_value < 0:
+        #     self._motor.run(Adafruit_MotorHAT.FORWARD)
+        # else:
+        #     self._motor.run(Adafruit_MotorHAT.BACKWARD)
 
     def _release(self):
         """Stops motor by releasing control"""
-        self._motor.run(Adafruit_MotorHAT.RELEASE)
+#        self._motor.run(Adafruit_MotorHAT.RELEASE)
+        self._motor.stop()
+        # Possibly consider closing serial port
+        pass
