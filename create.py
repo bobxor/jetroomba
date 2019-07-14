@@ -499,6 +499,9 @@ class Create:
         self.leftEncoder_old = -1
         self.rightEncoder_old = -1
         
+        self.cur_left_vel = 0.0
+        self.cur_right_vel = 0.0
+        
         time.sleep(0.3)
         self._start()  # go to passive mode - want to do this
         # regardless of the final mode we'd like to be in...
@@ -690,7 +693,25 @@ class Create:
         #print 'final pose', self.xPose, self.yPose, self.thrPose
         return
     
-    def setWheelVelocities( self, left_cm_sec, right_cm_sec ):
+    def setLeftWheelVel( self, left_cm_sec_in):
+        print('setLeftWheelVel left_cm_sec_in = ', left_cm_sec_in)
+        self.setWheelVelocities( left_cm_sec = left_cm_sec_in)
+
+    def setRightWheelVel( self, right_cm_sec_in):
+        print('setRightWheelVel right_cm_sec_in = ', right_cm_sec_in)
+        self.setWheelVelocities( right_cm_sec = right_cm_sec_in)
+
+    def setWheelVelocities( self, left_cm_sec = None, right_cm_sec = None ):
+        if(left_cm_sec == None):
+            print('left_cm_sec is None, setting to self.cur_left_vel =', self.cur_left_vel)
+            left_cm_sec = self.cur_left_vel
+        if(right_cm_sec == None):
+            print('right_cm_sec is None, setting to self.cur_right_vel=', self.cur_right_vel)
+            right_cm_sec = self.cur_right_vel
+
+        print('setWheelVelocities left_cm_sec = ', left_cm_sec)
+        print('setWheelVelocities right_cm_sec = ', right_cm_sec)
+
         """ sends velocities of each wheel independently
         left_cm_sec:  left  wheel velocity in cm/sec (capped at +- 50)
         right_cm_sec: right wheel velocity in cm/sec (capped at +- 50)
@@ -699,6 +720,11 @@ class Create:
         if left_cm_sec > 50:  left_cm_sec = 50;
         if right_cm_sec < -50: right_cm_sec = -50;
         if right_cm_sec > 50: right_cm_sec = 50;
+
+        # Store current left/right velocities
+        self.cur_left_vel = left_cm_sec
+        self.cur_right_vel = right_cm_sec
+
         # convert to mm/sec, ensure we have integers
         leftHighVal, leftLowVal = _toTwosComplement2Bytes( int(left_cm_sec*10) )
         rightHighVal, rightLowVal = _toTwosComplement2Bytes( int(right_cm_sec*10) )
