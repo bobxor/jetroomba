@@ -27,13 +27,20 @@ class Motor(Configurable):
         self._write_value(change['new'])
 
     def _write_value(self, value):
+        if(value > 1.0):
+            value = 1.0
+        if(value < -1.0):
+            value = -1.0
         print('write_value value = ', value)
         print('self.channel_id = ', self.channel_id)
-        
+       
         #"""Sets motor value between [-1, 1]"""
         #mapped_value = int(255.0 * (self.alpha * value + self.beta))
         #speed = min(max(abs(mapped_value), 0), 255)
-        speed = value
+
+	# Presuming value is a ratio between -1 to 1, and max 
+	# speed of roomba is 50 cm / sec.
+        speed = value * 50
 
         if( self.channel_id == 1):
             self._motor.setLeftWheelVel(speed)
