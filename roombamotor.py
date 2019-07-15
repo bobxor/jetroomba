@@ -1,7 +1,7 @@
 import atexit
 import traitlets
 from traitlets.config.configurable import Configurable
-import create
+from jetbot import create
 
 class Motor(Configurable):
 
