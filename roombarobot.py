@@ -6,6 +6,13 @@ from roombamotor import Motor
 import create
 ROOMBA_PORT = "COM13"
 
+# May need to use this command for permission issues in Ubuntu:
+# Add user to dialout group:
+# sudo gpasswd --add ${USER} dialout
+# Change permissions of ttyUSB0 resource:
+# sudo chmod 666 /dev/ttyUSB0
+ROOMBA_PORT = "/dev/ttyUSB0"
+
 class Robot(SingletonConfigurable):
     
     left_motor = traitlets.Instance(Motor)
