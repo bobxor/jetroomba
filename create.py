@@ -19,6 +19,11 @@
 #   1. Added support for dirt sensor, encoders, and light bump.
 #   2. Adjusted the size of the Roomba in WHEEL_SPAN
 #   3. getPose seems to be broken.
+#
+# modified by Robert McManus July 2019
+#   1. Ported over to Python 3.
+#   2. Added methods to move Left/Right wheels independently.
+#
 
 import serial
 import math
