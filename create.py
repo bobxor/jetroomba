@@ -217,7 +217,6 @@ def _twosComplementInt2bytes( highByte, lowByte ):
 
 
 def _toTwosComplement2Bytes( value ):
-    print('_toTwosComplement2Bytes value', value)
     """ returns two bytes (ints) in high, low order
     whose bits form the input value when interpreted in
     two's complement
@@ -228,8 +227,6 @@ def _toTwosComplement2Bytes( value ):
     # if it's negative, I think it is this
     else:
         eqBitVal = (1<<16) + value
-    print('(eqBitVal >> 8) & 0xFF', (eqBitVal >> 8) & 0xFF)
-    print('eqBitVal & 0xFF', eqBitVal & 0xFF)
     return ( (eqBitVal >> 8) & 0xFF, eqBitVal & 0xFF )
 
 #
@@ -532,11 +529,8 @@ class Create:
         # RM: Added to handle encoded bytes that are more than 1 in length
         if(len(byte.encode('utf-8')) > 1):
             temp_byte = byte.encode('unicode-escape')
-            print('temp_byte = ', temp_byte)
             temp_byte_str = str(temp_byte).replace("b'\\\\x",'').replace("'","")
-            print('temp_byte_str = ',temp_byte_str)
             temp_byte_out = bytes.fromhex(temp_byte_str)
-            print('write, temp_byte = ', temp_byte_out)
         else:
             temp_byte_out = byte.encode('utf-8')
 
@@ -694,23 +688,16 @@ class Create:
         return
     
     def setLeftWheelVel( self, left_cm_sec_in):
-        print('setLeftWheelVel left_cm_sec_in = ', left_cm_sec_in)
         self.setWheelVelocities( left_cm_sec = left_cm_sec_in)
 
     def setRightWheelVel( self, right_cm_sec_in):
-        print('setRightWheelVel right_cm_sec_in = ', right_cm_sec_in)
         self.setWheelVelocities( right_cm_sec = right_cm_sec_in)
 
     def setWheelVelocities( self, left_cm_sec = None, right_cm_sec = None ):
         if(left_cm_sec == None):
-            print('left_cm_sec is None, setting to self.cur_left_vel =', self.cur_left_vel)
             left_cm_sec = self.cur_left_vel
         if(right_cm_sec == None):
-            print('right_cm_sec is None, setting to self.cur_right_vel=', self.cur_right_vel)
             right_cm_sec = self.cur_right_vel
-
-        print('setWheelVelocities left_cm_sec = ', left_cm_sec)
-        print('setWheelVelocities right_cm_sec = ', right_cm_sec)
 
         """ sends velocities of each wheel independently
         left_cm_sec:  left  wheel velocity in cm/sec (capped at +- 50)
@@ -817,9 +804,6 @@ class Create:
         return
 
     def _drive(self, roomba_mm_sec, roomba_radius_mm, turn_dir='CCW'):
-        print('roomba_mm_sec',roomba_mm_sec)
-        print('roomba_radius_mm',roomba_radius_mm)
-        print('turn_dir',turn_dir)
         """ implements the drive command as specified
         the turn_dir should be either 'CW' or 'CCW' for
         clockwise or counterclockwise - this is only
@@ -863,12 +847,6 @@ class Create:
         #print 'bytes are', velHighVal, velLowVal, radiusHighVal, radiusLowVal
         
         # send these bytes and set the stored velocities
-        print('writing values out:')
-        print('DRIVE = ', DRIVE)
-        print('velHighVal', chr(velHighVal))
-        print('velLowVal', chr(velLowVal))
-        print('radiusHighVal', chr(radiusHighVal))
-        print('radiusLowVal', chr(radiusLowVal))
         self._write( DRIVE )
         self._write( chr(velHighVal) )
         self._write( chr(velLowVal) )
@@ -1043,8 +1021,6 @@ class Create:
             if type(note) == type( () ):
                 #more error checking here!
                 self._write( chr(int(note[0]) ))  # note number
-                #print('note[1]=',int(note[1]))
-                #print('chr(note[1])=',chr(int(note[1]))
                 self._write( chr(int(note[1])) )  # duration
             else:
                 self._write( chr(30) )   # a rest note

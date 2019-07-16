@@ -1,3 +1,5 @@
+# Modified from JetBot Motor module
+#
 import atexit
 import traitlets
 from traitlets.config.configurable import Configurable
@@ -16,8 +18,6 @@ class Motor(Configurable):
     def __init__(self, driver, channel, *args, **kwargs):
         super(Motor, self).__init__(*args, **kwargs)  # initializes traitlets
 
-       # self._driver = driver
-       # self._motor = self._driver.getMotor(channel)
         self._motor = driver
         self.channel_id = channel
         atexit.register(self._release)
@@ -31,15 +31,13 @@ class Motor(Configurable):
             value = 1.0
         if(value < -1.0):
             value = -1.0
-        print('write_value value = ', value)
-        print('self.channel_id = ', self.channel_id)
        
         #"""Sets motor value between [-1, 1]"""
         #mapped_value = int(255.0 * (self.alpha * value + self.beta))
         #speed = min(max(abs(mapped_value), 0), 255)
 
-	# Presuming value is a ratio between -1 to 1, and max 
-	# speed of roomba is 50 cm / sec.
+		# Presuming value is a ratio between -1 to 1, and max 
+		# speed of roomba is 50 cm / sec.
         speed = value * 50
 
         if( self.channel_id == 1):
@@ -47,15 +45,8 @@ class Motor(Configurable):
         if( self.channel_id == 2):
             self._motor.setRightWheelVel(speed)
 
-        # self._motor.setSpeed(speed)
-        # if mapped_value < 0:
-        #     self._motor.run(Adafruit_MotorHAT.FORWARD)
-        # else:
-        #     self._motor.run(Adafruit_MotorHAT.BACKWARD)
-
     def _release(self):
         """Stops motor by releasing control"""
-#        self._motor.run(Adafruit_MotorHAT.RELEASE)
         self._motor.stop()
         # Possibly consider closing serial port
         pass

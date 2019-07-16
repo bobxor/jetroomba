@@ -1,12 +1,12 @@
+# Modified from JetBot "robot" code
+#
 import time
 import traitlets
 from traitlets.config.configurable import SingletonConfigurable
-#from Adafruit_MotorHAT import Adafruit_MotorHAT
 from .roombamotor import Motor
 from jetbot import create
-#ROOMBA_PORT = "COM13"
 
-# May need to use this command for permission issues in Ubuntu:
+# May need to use these commands for serial permission issues in Ubuntu:
 # Add user to dialout group:
 # sudo gpasswd --add ${USER} dialout
 # Change permissions of ttyUSB0 resource:
