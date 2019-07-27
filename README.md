@@ -11,7 +11,7 @@ We're making use of a custom mount that holds the JetBot and camera.
 Todo:  Add STL files.
 
 ## Software
-Clone this repo!  You'll then need to add the Python files to the installed location of the JetBot Python3 module. (todo: add example path)  
+Clone this repo!  You'll then need to add the Python files to the installed location of the JetBot Python3 module. (todo: ```/usr/local/lib/python3.6/dist-packages/jetbot-0.3.0-py3.6.egg/jetbot/```)  
 
 To use these motor/robot modules within the JetBot Jupyter Notebooks, you'll need to replace the robot object, e.g.:
 ```
