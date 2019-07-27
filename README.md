@@ -1,6 +1,8 @@
 # jetroomba
 A repo for getting the Nvidia Jetson / Jetbot running on a Roomba!  We've slightly modified the framework provided by Nvidia's [JetBot repo](https://github.com/NVIDIA-AI-IOT/jetbot).  You should start there, and then consider modifiying the motor control using the source code within this repo.
 
+[Video of it in action!](https://www.youtube.com/watch?v=1qVcafMmqN8)
+
 # Getting Started
 
 ## Hardware
